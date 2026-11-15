@@ -392,10 +392,10 @@ export const SystemHeader: React.FC = () => {
   return (
     <>
       <header className="w-full bg-[#101623] border-b border-[#202b3d] flex flex-col select-none shrink-0 z-30 shadow-lg">
-        {/* ROW 1: System Control, Project Title/Actions & Hardware/AI Telemetry (h-[50px]) */}
-        <div className="h-[50px] w-full px-4 flex items-center justify-between gap-4 border-b border-[#1b2535]">
+        {/* ROW 1: Brand Title, Project Actions, Projector Launcher & Hardware/AI Telemetry (Auto-wrapping double-stack on narrower screens) */}
+        <div className="min-h-[48px] w-full px-4 py-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-[#1b2535]">
           {/* Row 1 Left: Brand Logo + Active Project Info + Actions */}
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex flex-wrap items-center gap-2.5 min-w-0">
             {/* Brand Button */}
             <button
               type="button"
@@ -407,7 +407,7 @@ export const SystemHeader: React.FC = () => {
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-[17px] font-extrabold tracking-wider text-slate-100">
+                <span className="text-[17px] font-extrabold tracking-wider text-slate-100 whitespace-nowrap">
                   LUMEN-MAP
                 </span>
                 <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest -translate-y-1">
@@ -417,42 +417,40 @@ export const SystemHeader: React.FC = () => {
               </div>
             </button>
 
-            <div className="h-6 w-[1px] bg-[#243046] shrink-0" />
+            <div className="h-5 w-[1px] bg-[#243046] shrink-0 hidden sm:block" />
 
             {/* Active Project Info & Save State */}
-            <div className="flex items-center gap-2 min-w-0 shrink-0">
-              <span className="text-xs font-bold tracking-wide text-slate-400 whitespace-nowrap">
+            <div className="flex items-center gap-1.5 min-w-0 shrink-0 bg-[#141c2b] px-2.5 py-1 rounded border border-[#223049]">
+              <span className="text-[11px] font-bold tracking-wide text-slate-400 whitespace-nowrap">
                 PROJ:
               </span>
-              <span className="text-xs font-semibold text-white max-w-[200px] truncate" title={activeProjectName}>
+              <span className="text-xs font-semibold text-white max-w-[180px] sm:max-w-[240px] truncate" title={activeProjectName}>
                 {activeProjectName}
               </span>
               {projectStateBadge === 'Saved' && (
-                <span className="text-xs font-mono font-semibold text-emerald-400 whitespace-nowrap">
+                <span className="text-[11px] font-mono font-semibold text-emerald-400 whitespace-nowrap">
                   [Saved]
                 </span>
               )}
               {projectStateBadge === 'Unsaved' && (
-                <span className="text-xs font-mono font-semibold text-amber-400 whitespace-nowrap">
+                <span className="text-[11px] font-mono font-semibold text-amber-400 whitespace-nowrap">
                   [Unsaved*]
                 </span>
               )}
               {projectStateBadge === 'Live' && (
-                <span className="text-xs font-mono font-bold text-emerald-400 animate-pulse whitespace-nowrap">
+                <span className="text-[11px] font-mono font-bold text-emerald-400 animate-pulse whitespace-nowrap">
                   [Live]
                 </span>
               )}
             </div>
 
-            <div className="h-6 w-[1px] bg-[#243046] shrink-0" />
-
             {/* Project Quick Action Buttons */}
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 shrink-0">
               {activeScreen !== 1 && (
                 <button
                   type="button"
                   onClick={navigateBack}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1c2637] hover:bg-[#25334a] border border-cyan-500/60 hover:border-cyan-400 text-[11px] font-extrabold tracking-wider text-cyan-300 hover:text-white uppercase transition-all shadow-[0_0_10px_rgba(6,182,212,0.2)] cursor-pointer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1c2637] hover:bg-[#25334a] border border-cyan-500/60 hover:border-cyan-400 text-[11px] font-extrabold tracking-wider text-cyan-300 hover:text-white uppercase transition-all shadow-[0_0_10px_rgba(6,182,212,0.2)] cursor-pointer whitespace-nowrap"
                   title="Go back to previous screen (Alt+Left)"
                   aria-label="Back to Previous Screen"
                 >
@@ -464,7 +462,7 @@ export const SystemHeader: React.FC = () => {
               <button
                 type="button"
                 onClick={saveCurrentProject}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/70 hover:border-emerald-400 text-[11px] font-extrabold tracking-wider text-emerald-300 hover:text-white uppercase transition-all shadow-[0_0_10px_rgba(16,185,129,0.25)] cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/70 hover:border-emerald-400 text-[11px] font-extrabold tracking-wider text-emerald-300 hover:text-white uppercase transition-all shadow-[0_0_10px_rgba(16,185,129,0.25)] cursor-pointer whitespace-nowrap"
                 title="Save Current Project (Ctrl+S)"
                 aria-label="Save Project"
               >
@@ -475,7 +473,7 @@ export const SystemHeader: React.FC = () => {
               <button
                 type="button"
                 onClick={openSaveAsModal}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1f283a] hover:bg-[#2a364e] border border-[#32405a] text-[11px] font-bold tracking-wider text-slate-200 hover:text-white uppercase transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1f283a] hover:bg-[#2a364e] border border-[#32405a] text-[11px] font-bold tracking-wider text-slate-200 hover:text-white uppercase transition-colors whitespace-nowrap"
                 title="Save project under a new name"
               >
                 <FolderPlus className="w-3 h-3 text-slate-300" />
@@ -485,22 +483,22 @@ export const SystemHeader: React.FC = () => {
               <button
                 type="button"
                 onClick={exportShowPackage}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1f283a] hover:bg-[#2a364e] border border-[#32405a] text-[11px] font-bold tracking-wider text-slate-200 hover:text-white uppercase transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#1f283a] hover:bg-[#2a364e] border border-[#32405a] text-[11px] font-bold tracking-wider text-slate-200 hover:text-white uppercase transition-colors whitespace-nowrap"
                 title="Export complete standalone show package archive"
               >
                 <PackageCheck className="w-3 h-3 text-cyan-400" />
-                <span>EXPORT SHOW PACKAGE</span>
+                <span>EXPORT PACKAGE</span>
               </button>
             </div>
           </div>
 
-          {/* Row 1 Right: Output Launch, Projector & AI Engine Telemetry */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Row 1 Right: Output Launch, Hardware/AI Telemetry & Help/Tutorial */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             {masterBlackout && (
               <button
                 type="button"
                 onClick={() => toggleMasterBlackout(false)}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-600/20 border border-red-500 text-red-400 text-[11px] font-mono font-bold animate-pulse"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-600/20 border border-red-500 text-red-400 text-[11px] font-mono font-bold animate-pulse whitespace-nowrap"
               >
                 <AlertTriangle className="w-3.5 h-3.5" />
                 BLACKOUT ACTIVE [ESC]
@@ -508,21 +506,21 @@ export const SystemHeader: React.FC = () => {
             )}
 
             {/* Sleek LAUNCH PROJECTOR OUTPUT Split Button */}
-            <div className="flex items-center rounded-lg bg-gradient-to-r from-blue-600 via-cyan-500 to-amber-400 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.3)] hover:shadow-[0_0_18px_rgba(6,182,212,0.5)] transition-all">
+            <div className="flex items-center rounded-lg bg-gradient-to-r from-blue-600 via-cyan-500 to-amber-400 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.3)] hover:shadow-[0_0_18px_rgba(6,182,212,0.5)] transition-all shrink-0">
               <button
                 type="button"
                 onClick={() => handleLaunchProjector(false)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-l-lg bg-[#0e1626]/90 hover:bg-[#131f36]/90 text-white text-[11px] font-extrabold uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-l-lg bg-[#0e1626]/95 hover:bg-[#131f36]/95 text-white text-[11px] font-extrabold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap"
                 title="Launch Secondary Screen Projector Output (Pop-out Window /?projector=true)"
               >
                 <MonitorUp className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                <span>LAUNCH PROJECTOR OUTPUT</span>
+                <span>LAUNCH PROJECTOR</span>
               </button>
               <div className="w-[1px] h-5 bg-cyan-500/40" />
               <button
                 type="button"
                 onClick={handleTakeOverScreens}
-                className="px-2.5 py-1 bg-[#0e1626]/90 hover:bg-[#131f36]/90 text-amber-300 hover:text-white text-[10px] font-extrabold uppercase transition-colors cursor-pointer"
+                className="px-2 py-1 bg-[#0e1626]/95 hover:bg-[#131f36]/95 text-amber-300 hover:text-white text-[10px] font-extrabold uppercase transition-colors cursor-pointer whitespace-nowrap"
                 title="Take Over Displays: Dispatches synchronized fullscreen outputs mapped to physical Screens 2, 3, and 4"
               >
                 SCREENS 2–4
@@ -531,7 +529,7 @@ export const SystemHeader: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleLaunchProjector(true)}
-                className="px-2 py-1 rounded-r-lg bg-[#0e1626]/90 hover:bg-[#131f36]/90 text-cyan-300 hover:text-white text-[10px] font-bold uppercase transition-colors cursor-pointer"
+                className="px-2 py-1 rounded-r-lg bg-[#0e1626]/95 hover:bg-[#131f36]/95 text-cyan-300 hover:text-white text-[10px] font-bold uppercase transition-colors cursor-pointer whitespace-nowrap"
                 title="Toggle In-App Projector Preview Overlay"
               >
                 PREVIEW
@@ -539,7 +537,7 @@ export const SystemHeader: React.FC = () => {
             </div>
 
             {/* Projector Hardware Telemetry Badge */}
-            <div className="bg-[#141b28] border border-[#263246] rounded-md px-2.5 py-1 flex items-center gap-2.5 shrink-0">
+            <div className="bg-[#141b28] border border-[#263246] rounded-md px-2.5 py-1 flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1.5">
                 <span
                   className={`w-2 h-2 rounded-full ${
@@ -549,18 +547,18 @@ export const SystemHeader: React.FC = () => {
                   }`}
                 />
                 <span className="text-[11px] font-bold tracking-wide text-slate-200 whitespace-nowrap">
-                  PROJECTOR 1:{' '}
+                  PROJ 1:{' '}
                   <span className="font-normal text-slate-300">
-                    1080p @ 60Hz
+                    1080p@60Hz
                   </span>
                 </span>
               </div>
-              <div className="w-[1px] h-4 bg-[#263246]" />
-              <div className="flex items-center gap-1.5 min-w-[70px]">
-                <span className="text-[10px] font-mono text-slate-400">
+              <div className="w-[1px] h-3.5 bg-[#263246]" />
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-mono text-slate-400 whitespace-nowrap">
                   GPU {gpuUtilization}%
                 </span>
-                <div className="w-12 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div className="w-10 h-1.5 bg-slate-800 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-emerald-500 rounded-full transition-all duration-300"
                     style={{ width: `${gpuUtilization}%` }}
@@ -571,7 +569,7 @@ export const SystemHeader: React.FC = () => {
 
             {/* AI Engine Status Telemetry Badge with Live Tooltip */}
             <div
-              className="bg-[#141b28] border border-[#263246] hover:border-cyan-500/50 rounded-md px-2.5 py-1 flex items-center gap-2 relative group cursor-help transition-colors shrink-0"
+              className="bg-[#141b28] border border-[#263246] hover:border-cyan-500/50 rounded-md px-2.5 py-1 flex items-center gap-1.5 relative group cursor-help transition-colors shrink-0"
               title={`Backend Engine: ${
                 backendTelemetry?.engine_version || 'LUMEN-MAP AI v3.5'
               }\nOpenCV: ${
@@ -643,198 +641,32 @@ export const SystemHeader: React.FC = () => {
               </div>
             </div>
 
-            {/* Pro Modal Quick Access Launchers */}
-            <button
-              type="button"
-              onClick={() => setIsOpticsCalculatorOpen(true)}
-              title="Projector Throw & Lens Optics Calculator"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Calculator className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">Optics Calc</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsStemSplitterOpen(true)}
-              title="AI 4-Stem Audio Separator & EQ Mixer"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-300 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Sliders className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">Stems</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsBatchRenderModalOpen(true)}
-              title="Overnight Batch AI Video Render Queue"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-300 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-fuchsia-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">Batch Queue</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsMidiControllerModalOpen(true)}
-              title="MIDI & Hardware Controller Mapper"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-300 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Sliders className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">MIDI</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsHolidayAssetModalOpen(true)}
-              title="Architectural Decal & Holiday Stencil Library"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Image className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">Assets</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsProjectTimeMachineModalOpen(true)}
-              title="Project Time Machine & Snapshot History"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-blue-500/60 flex items-center gap-1.5 text-slate-300 hover:text-blue-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <History className="w-3.5 h-3.5 text-blue-400" />
-              <span className="text-[11px] font-bold hidden sm:inline">History</span>
-            </button>
-
-            {/* Marshall Studio Architectural Suite Launchers */}
-            <div className="h-5 w-[1px] bg-[#263246] mx-0.5 shrink-0" />
-
-            <button
-              type="button"
-              onClick={() => setIsCommandPaletteOpen(true)}
-              title="Fuzzy Command Palette & Red-Light Night Vision (Ctrl+K)"
-              className="h-8 px-2 rounded-md bg-gradient-to-r from-cyan-950/80 to-blue-950/80 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/60 hover:border-cyan-400 flex items-center gap-1.5 text-cyan-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Command className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px] font-extrabold hidden md:inline">Ctrl+K</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsFitVideoModalOpen(true)}
-              title="Fit Video to House — Map single video across house shapes with zero overhang (§22-A..22-E)"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-sky-500/60 flex items-center gap-1.5 text-slate-200 hover:text-sky-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Film className="w-3.5 h-3.5 text-sky-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">Fit Video</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsExportStencilModalOpen(true)}
-              title="Export House Stencil — High-res filled mask & outline for AI video generators (§22-F)"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-indigo-500/60 flex items-center gap-1.5 text-slate-200 hover:text-indigo-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Wand2 className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">Stencil</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsMapRecalibrationModalOpen(true)}
-              title="Global Map Warp (W), Two-Tier Recalibration, Holes Outliner & Geometry Classifier"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Crosshair className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px] font-bold hidden md:inline">Warp & Calib</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsSceneLibraryModalOpen(true)}
-              title="Scene Library (.mpsscenes), Holiday Auto-Decorate, Shaders & 11-Node FX Graph"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-[11px] font-bold hidden md:inline">Scenes & FX</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsAutoShowKaraokeModalOpen(true)}
-              title="One-Button Auto-Show Generator, Word-Level Karaoke (.srt/.vtt) & xLights .xtiming Bridge"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-200 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Music className="w-3.5 h-3.5 text-fuchsia-400" />
-              <span className="text-[11px] font-bold hidden md:inline">Auto-Show</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsRunNightRehearsalModalOpen(true)}
-              title="Evening Rehearsal Simulator (--rehearse-evening), Pre-Show Preflight, Launch Pad & Native .mps* Bridge"
-              className="h-8 px-2.5 rounded-md bg-gradient-to-r from-amber-600/30 to-rose-600/30 hover:from-amber-600/50 hover:to-rose-600/50 border border-amber-500/60 hover:border-amber-400 flex items-center gap-1.5 text-amber-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Calendar className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px] font-extrabold hidden md:inline">Rehearsal</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsProjectorRigModalOpen(true)}
-              title="Multi-Projector Rig & Edge Blending Studio (.mpsrig) — Canvas arrangement, overlap curves, 3x3 warp mesh, lamp hours"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Monitor className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">Rig & Blend</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsDmxWledModalOpen(true)}
-              title="DMX Art-Net & WLED Pixel Light Synchronization — Physical moving heads, RGB floods, WLED strips & 512-ch heat map"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">DMX/WLED</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsLiveAudioMidiModalOpen(true)}
-              title="Live Audio-Reactive Spectrum Analyzer & Web MIDI Studio — 2048-pt FFT 5-band analysis & USB launchpad mapping"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-rose-500/60 flex items-center gap-1.5 text-slate-200 hover:text-rose-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Radio className="w-3.5 h-3.5 text-rose-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">Live Audio</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsTestPatternsModalOpen(true)}
-              title="Projector Calibration Test Patterns & Douglas-Peucker Simplifier — 10 optical patterns & RDP contour optimizer"
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
-            >
-              <Grid className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-[11px] font-bold hidden xl:inline">Patterns</span>
-            </button>
-
-            <div className="h-5 w-[1px] bg-[#263246] mx-0.5 shrink-0" />
-
             {/* AI Generation Provider Settings Quick Toggle Button */}
             <button
               type="button"
               onClick={() => setAiSettingsModalOpen(true)}
               title={`Configure AI Generation Provider (Currently: ${aiProviderConfig.activeProvider.toUpperCase()})`}
-              className="h-8 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer group shadow-sm shrink-0"
+              className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer group shadow-sm shrink-0"
             >
               <Cpu className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-45 transition-transform" />
               <div className="flex items-baseline gap-1">
                 <span className="text-[10px] font-mono text-slate-400 uppercase">
-                  AI:
+                  MODEL:
                 </span>
                 <span className="text-[11px] font-bold text-cyan-300 uppercase tracking-wide">
                   {aiProviderConfig.activeProvider}
                 </span>
               </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsCommandPaletteOpen(true)}
+              title="Fuzzy Command Palette & Red-Light Night Vision (Ctrl+K)"
+              className="h-7 px-2.5 rounded-md bg-gradient-to-r from-cyan-950/80 to-blue-950/80 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/60 hover:border-cyan-400 flex items-center gap-1.5 text-cyan-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+            >
+              <Command className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="text-[11px] font-extrabold">Ctrl+K</span>
             </button>
 
             {/* Interactive Beginner Sample Show Walkthrough Button */}
@@ -845,9 +677,9 @@ export const SystemHeader: React.FC = () => {
                 setIsTutorialWalkthroughOpen(true);
               }}
               title="Launch Interactive Step-by-Step Sample Show Tutorial for New Users"
-              className="h-8 px-2.5 rounded-md bg-emerald-600/25 hover:bg-emerald-600/45 border border-emerald-400/70 hover:border-emerald-300 flex items-center gap-1.5 text-emerald-200 hover:text-white transition-all cursor-pointer shadow-[0_0_12px_rgba(16,185,129,0.25)] shrink-0"
+              className="h-7 px-2.5 rounded-md bg-emerald-600/25 hover:bg-emerald-600/45 border border-emerald-400/70 hover:border-emerald-300 flex items-center gap-1.5 text-emerald-200 hover:text-white transition-all cursor-pointer shadow-[0_0_12px_rgba(16,185,129,0.25)] shrink-0"
             >
-              <GraduationCap className="w-4 h-4 text-emerald-300" />
+              <GraduationCap className="w-3.5 h-3.5 text-emerald-300" />
               <span className="text-[11px] font-extrabold uppercase tracking-wide">
                 Tutorial
               </span>
@@ -858,7 +690,7 @@ export const SystemHeader: React.FC = () => {
               type="button"
               onClick={() => setShowShortcutsModal(true)}
               title="Studio Keyboard Shortcuts & Hotkeys (?)"
-              className="w-8 h-8 rounded-md bg-[#141b28] hover:bg-[#1f293a] border border-[#263246] hover:border-cyan-500/50 flex items-center justify-center text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer group shrink-0"
+              className="w-7 h-7 rounded-md bg-[#141b28] hover:bg-[#1f293a] border border-[#263246] hover:border-cyan-500/50 flex items-center justify-center text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer group shrink-0"
               aria-label="Studio Keyboard Shortcuts & Hotkeys (?)"
             >
               <HelpCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -866,15 +698,186 @@ export const SystemHeader: React.FC = () => {
           </div>
         </div>
 
-        {/* ROW 2: Dedicated Studio Workflow Screen Navigation Bar (h-[40px]) */}
-        <div className="h-[40px] w-full px-4 bg-[#0a0f17] flex items-center justify-between gap-4">
-          {/* Studio Mode Selector (Core 1-10 vs Pro 11-18) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-            <div className="flex items-center bg-[#101725] p-0.5 rounded-md border border-[#212c3e] shrink-0 mr-1.5">
+        {/* ROW 2: Dedicated Studio Tools & Wizards Bar (Wraps cleanly into 2 rows on smaller screens) */}
+        <div className="min-h-[38px] w-full px-4 py-1.5 bg-[#0d131f] border-b border-[#1b2535] flex flex-wrap items-center gap-1.5">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 bg-[#141c2c] border border-[#23314a] px-2 py-0.5 rounded mr-1 shrink-0">
+            Studio Tools:
+          </span>
+
+          <button
+            type="button"
+            onClick={() => setIsFitVideoModalOpen(true)}
+            title="Fit Video to House — Map single video across house shapes with zero overhang (§22-A..22-E)"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-sky-500/60 flex items-center gap-1.5 text-slate-200 hover:text-sky-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Film className="w-3.5 h-3.5 text-sky-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Fit Video</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsExportStencilModalOpen(true)}
+            title="Export House Stencil — High-res filled mask & outline for AI video generators (§22-F)"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-indigo-500/60 flex items-center gap-1.5 text-slate-200 hover:text-indigo-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Wand2 className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Stencil</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsMapRecalibrationModalOpen(true)}
+            title="Global Map Warp (W), Two-Tier Recalibration, Holes Outliner & Geometry Classifier"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Crosshair className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Warp &amp; Calib</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsSceneLibraryModalOpen(true)}
+            title="Scene Library (.mpsscenes), Holiday Auto-Decorate, Shaders & 11-Node FX Graph"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Scenes &amp; FX</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsAutoShowKaraokeModalOpen(true)}
+            title="One-Button Auto-Show Generator, Word-Level Karaoke (.srt/.vtt) & xLights .xtiming Bridge"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-200 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Music className="w-3.5 h-3.5 text-fuchsia-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Auto-Show</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsRunNightRehearsalModalOpen(true)}
+            title="Evening Rehearsal Simulator (--rehearse-evening), Pre-Show Preflight, Launch Pad & Native .mps* Bridge"
+            className="h-7 px-2.5 rounded-md bg-gradient-to-r from-amber-600/30 to-rose-600/30 hover:from-amber-600/50 hover:to-rose-600/50 border border-amber-500/60 hover:border-amber-400 flex items-center gap-1.5 text-amber-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Calendar className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] font-extrabold whitespace-nowrap">Rehearsal</span>
+          </button>
+
+          <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
+
+          <button
+            type="button"
+            onClick={() => setIsProjectorRigModalOpen(true)}
+            title="Multi-Projector Rig & Edge Blending Studio (.mpsrig) — Canvas arrangement, overlap curves, 3x3 warp mesh, lamp hours"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Monitor className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Rig &amp; Blend</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsDmxWledModalOpen(true)}
+            title="DMX Art-Net & WLED Pixel Light Synchronization — Physical moving heads, RGB floods, WLED strips & 512-ch heat map"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">DMX / WLED</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsLiveAudioMidiModalOpen(true)}
+            title="Live Audio-Reactive Spectrum Analyzer & Web MIDI Studio — 2048-pt FFT 5-band analysis & USB launchpad mapping"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-rose-500/60 flex items-center gap-1.5 text-slate-200 hover:text-rose-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Radio className="w-3.5 h-3.5 text-rose-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Live Audio &amp; MIDI</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsTestPatternsModalOpen(true)}
+            title="Projector Calibration Test Patterns & Douglas-Peucker Simplifier — 10 optical patterns & RDP contour optimizer"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Grid className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Test Patterns</span>
+          </button>
+
+          <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
+
+          <button
+            type="button"
+            onClick={() => setIsOpticsCalculatorOpen(true)}
+            title="Projector Throw & Lens Optics Calculator"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Calculator className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Optics Calc</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsStemSplitterOpen(true)}
+            title="AI 4-Stem Audio Separator & EQ Mixer"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-300 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Stems</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsBatchRenderModalOpen(true)}
+            title="Overnight Batch AI Video Render Queue"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-300 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-fuchsia-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Batch Queue</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsMidiControllerModalOpen(true)}
+            title="MIDI & Hardware Controller Mapper"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-300 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Sliders className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">MIDI Map</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsHolidayAssetModalOpen(true)}
+            title="Architectural Decal & Holiday Stencil Library"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <Image className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">Assets</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsProjectTimeMachineModalOpen(true)}
+            title="Project Time Machine & Snapshot History"
+            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-blue-500/60 flex items-center gap-1.5 text-slate-300 hover:text-blue-300 transition-all cursor-pointer shadow-sm shrink-0"
+          >
+            <History className="w-3.5 h-3.5 text-blue-400" />
+            <span className="text-[11px] font-bold whitespace-nowrap">History</span>
+          </button>
+        </div>
+
+        {/* ROW 3: Dedicated Studio Workflow Screen Navigation Bar (Wraps cleanly without horizontal scrollbars) */}
+        <div className="min-h-[42px] w-full px-4 py-1.5 bg-[#0a0f17] flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          {/* Studio Mode Selector (Core 1-10 vs Pro 11-18) + Screen Tabs */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex items-center bg-[#101725] p-0.5 rounded-md border border-[#212c3e] shrink-0 mr-1">
               <button
                 type="button"
                 onClick={() => setActiveStudioMode('core')}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded text-[10px] font-bold tracking-wide uppercase transition-all cursor-pointer ${
                   activeStudioMode === 'core'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
@@ -885,7 +888,7 @@ export const SystemHeader: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveStudioMode('pro')}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded text-[10px] font-bold tracking-wide uppercase transition-all cursor-pointer ${
                   activeStudioMode === 'pro'
                     ? 'bg-fuchsia-600 text-white shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
@@ -898,7 +901,7 @@ export const SystemHeader: React.FC = () => {
             {/* Screen Navigation Buttons (Core or Pro) */}
             <nav
               aria-label="Studio Workflow Navigation"
-              className="flex items-center gap-1.5"
+              className="flex flex-wrap items-center gap-1.5"
             >
               {(activeStudioMode === 'core'
                 ? SCREEN_SHORT_LABELS
@@ -926,15 +929,15 @@ export const SystemHeader: React.FC = () => {
           </div>
 
           {/* Right: Active Screen Subtitle Context & Quick Switch Hint */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <div className="flex items-center gap-1.5 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
-              <span className="font-bold text-cyan-300 uppercase tracking-wide truncate max-w-sm">
+              <span className="font-bold text-cyan-300 uppercase tracking-wide">
                 SCREEN {SCREEN_DISPLAY_NUMBERS[activeScreen]}: {SCREEN_SUBTITLES[activeScreen]}
               </span>
             </div>
             <span className="text-[10px] font-mono text-slate-400 bg-[#121824] px-2 py-0.5 rounded border border-[#212c3e] whitespace-nowrap">
-              Alt+1..0 to switch (Screens 1–18)
+              Alt+1..0 to switch
             </span>
           </div>
         </div>
