@@ -1,0 +1,29 @@
+{
+  "kind": "mps.playlist",
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "savedUtc": "2026-09-12T20:44:22.7539023+00:00",
+  "name": "Sample Playlist",
+  "entries": [
+    {
+      "kind": "show",
+      "showPath": "SampleShow.mpsshow",
+      "weight": 1,
+      "transitionStyle": "dipToBlack"
+    }
+  ],
+  "defaultCrossfadeSeconds": 3,
+  "loopMode": "loopAll",
+  "shuffle": false,
+  "shuffleMode": "perPass",
+  "shuffleSeed": 0,
+  "normalizeLoudness": false,
+  "targetRmsDbfs": -20,
+  "autoInterstitialEveryShows": 0,
+  "autoInterstitialDurationSeconds": 20,
+  "idle": {
+    "kind": "black"
+  },
+  "scheduleWindows": [],
+  "quietHours": []
+}

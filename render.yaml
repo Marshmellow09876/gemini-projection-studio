@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: marshall-projection-studio-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/v1/telemetry
+    envVars:
+      - key: PORT
+        value: 8000

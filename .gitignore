@@ -1,0 +1,27 @@
+# Dependencies & build outputs
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# TypeScript incremental cache
+*.tsbuildinfo
+
+# Python cache & virtual environments
+backend/__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

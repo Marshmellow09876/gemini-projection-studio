@@ -1,0 +1,32 @@
+1
+00:00:08,000 --> 00:00:11,500
+Marshall Projection Studio test song
+
+2
+00:00:12,000 --> 00:00:15,500
+Verse one, the lights come on
+
+3
+00:00:16,000 --> 00:00:19,500
+Garage door, windows, front door glow
+
+4
+00:00:24,000 --> 00:00:27,500
+Chorus, every shape lights up
+
+5
+00:00:32,000 --> 00:00:35,500
+Chorus, this is the drop
+
+6
+00:00:40,000 --> 00:00:43,500
+Breakdown, soft and slow
+
+7
+00:00:48,000 --> 00:00:51,500
+Final chorus, all together
+
+8
+00:00:56,000 --> 00:00:59,000
+Fade out, the show is done
+

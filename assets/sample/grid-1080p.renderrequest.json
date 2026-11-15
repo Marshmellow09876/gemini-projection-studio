@@ -1,0 +1,24 @@
+{
+  "kind": "mps.renderRequest",
+  "schemaVersion": 1,
+  "description": "M0 sample: 1080p alignment grid, the state the app boots into.",
+  "state": {
+    "width": 1920,
+    "height": 1080,
+    "timeSeconds": 0,
+    "blackout": false,
+    "pattern": "grid",
+    "checkerCellPx": 64,
+    "overlay": {
+      "gridEnabled": true,
+      "gridSpacingPx": 64,
+      "gridLineWidthPx": 1,
+      "gridColor": "#00FF88FF",
+      "gridOpacity": 0.7,
+      "majorLines": true,
+      "majorEvery": 5,
+      "edgeFrame": true
+    },
+    "background": "#000000FF"
+  }
+}

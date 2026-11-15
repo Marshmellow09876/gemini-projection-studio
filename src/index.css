@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MANDATORY: Apply color-scheme to :root or html for viewport-wide theming */
+:root {
+  --brand-accent-light: #1d4ed8;
+  --brand-accent-dark: #2573f0;
+  --accent-color: var(--brand-accent-light);
+
+  --scrollbar-track-light: #e2e8f0;
+  --scrollbar-track-dark: #0f1520;
+  --scrollbar-thumb-light: #94a3b8;
+  --scrollbar-thumb-dark: #2e3b52;
+
+  --scrollbar-track: var(--scrollbar-track-light);
+  --scrollbar-thumb: var(--scrollbar-thumb-light);
+
+  /* MANDATORY: Fallback for browsers without light-dark support */
+  @media (prefers-color-scheme: dark) {
+    --accent-color: var(--brand-accent-dark);
+    --scrollbar-track: var(--scrollbar-track-dark);
+    --scrollbar-thumb: var(--scrollbar-thumb-dark);
+  }
+
+  /* OPTIONAL: use light-dark() for more control of built-in UI colors */
+  @supports (color: light-dark(white, black)) {
+    --accent-color: light-dark(var(--brand-accent-light), var(--brand-accent-dark));
+    --scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
+    --scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
+  }
+
+  /* MANDATORY: Automatically adapt native UI to user system preferences */
+  color-scheme: light dark;
+  accent-color: var(--accent-color);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+}
+
+html {
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Studio creative suite forces dark theme on app container while preserving design tokens */
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0c1017;
+  color: #f1f5f9;
+  color-scheme: dark;
+  accent-color: var(--accent-color);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* WebKit/Blink high-contrast visible sidebar scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1522;
+  border-left: 1px solid #1a2436;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b3a52;
+  border-radius: 5px;
+  border: 2px solid #0f1522;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #60a5fa;
+}
+
+/* MANDATORY: Dialog scroll containment rules */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(6, 9, 15, 0.78);
+  backdrop-filter: blur(4px);
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "mps.palettes",
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "savedUtc": "2026-09-12T20:44:22.6513026+00:00",
+  "palettes": [
+    {
+      "id": "sample-warm",
+      "name": "Sample Warm",
+      "swatches": [
+        "#FFAA33FF",
+        "#FF5533FF",
+        "#FFE0A0FF"
+      ]
+    }
+  ]
+}

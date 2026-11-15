@@ -1,0 +1,120 @@
+{
+  "kind": "mps.scenes",
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "savedUtc": "2026-09-12T20:44:22.6726612+00:00",
+  "scenes": [
+    {
+      "id": "sample-twinkle",
+      "name": "Sample Twinkle",
+      "kind": "animated",
+      "animation": {
+        "kind": "twinkle",
+        "beatsPerCycle": 1
+      },
+      "paletteId": "sample-warm",
+      "seed": 173,
+      "rules": [
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "roofline"
+          },
+          "effect": {
+            "role": "primary",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        },
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "window"
+          },
+          "effect": {
+            "role": "secondary",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        },
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "door"
+          },
+          "effect": {
+            "role": "accent",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        },
+        {
+          "match": {
+            "kind": "any",
+            "tag": "untagged"
+          },
+          "effect": {
+            "role": "seeded",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        }
+      ],
+      "ambientLoop": false
+    },
+    {
+      "id": "sample-hold",
+      "name": "Sample Hold",
+      "kind": "static",
+      "paletteId": "christmas",
+      "seed": 0,
+      "rules": [
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "roofline"
+          },
+          "effect": {
+            "role": "primary",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        },
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "window"
+          },
+          "effect": {
+            "role": "secondary",
+            "swatchIndex": 0,
+            "brightness": 0.7
+          }
+        },
+        {
+          "match": {
+            "kind": "tag",
+            "tag": "door"
+          },
+          "effect": {
+            "role": "accent",
+            "swatchIndex": 0,
+            "brightness": 1
+          }
+        },
+        {
+          "match": {
+            "kind": "any",
+            "tag": "untagged"
+          },
+          "effect": {
+            "role": "primary",
+            "swatchIndex": 0,
+            "brightness": 0.5
+          }
+        }
+      ],
+      "ambientLoop": false
+    }
+  ]
+}
