@@ -432,6 +432,40 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         handleClose();
       },
     },
+    {
+      id: 'beginner-starter-shows',
+      category: 'Quick Actions',
+      title: 'Holiday In a Box — 1-Click Starter Show Packs',
+      description: 'Load Halloween, Christmas, New Year\'s Eve or Indoor EDM starter shows with pre-traced masks and music',
+      icon: Sparkles,
+      action: () => {
+        store.setIsStarterPacksModalOpen(true);
+        handleClose();
+      },
+    },
+    {
+      id: 'beginner-guided-tour',
+      category: 'Quick Actions',
+      title: 'Start Interactive 5-Step Beginner Spotlight Tour',
+      description: 'On-screen guided walkthrough with glowing highlights and 1-click Auto-Demo steps',
+      icon: Play,
+      action: () => {
+        store.setSpotlightTourStep(0);
+        store.setIsSpotlightTourActive(true);
+        handleClose();
+      },
+    },
+    {
+      id: 'beginner-express-mode',
+      category: 'Quick Actions',
+      title: 'Toggle Express (Beginner) 4-Step Mode',
+      description: 'Simplify interface to 4 easy steps: Photo/Wall -> Outlines -> Holiday Look -> Showtime',
+      icon: Zap,
+      action: () => {
+        store.setActiveStudioMode('express');
+        handleClose();
+      },
+    },
 
     // 3. ALL 18 SCREENS
     {

@@ -51,6 +51,8 @@ import { ProjectorRigAndEdgeBlendModal } from './components/modals/ProjectorRigA
 import { DmxAndWledPatchModal } from './components/modals/DmxAndWledPatchModal';
 import { LiveAudioAndMidiModal } from './components/modals/LiveAudioAndMidiModal';
 import { TestPatternsAndGeometryToolsModal } from './components/modals/TestPatternsAndGeometryToolsModal';
+import { StarterShowPacksModal } from './components/modals/StarterShowPacksModal';
+import { BeginnerSpotlightTour } from './components/BeginnerSpotlightTour';
 
 export const App: React.FC = () => {
   // Broadcast all store modifications in real-time to any connected secondary projector displays
@@ -252,6 +254,8 @@ export const App: React.FC = () => {
         isOpen={isTestPatternsModalOpen}
         onClose={() => setIsTestPatternsModalOpen(false)}
       />
+      <StarterShowPacksModal />
+      <BeginnerSpotlightTour />
 
       {/* Non-blocking Status Toast */}
       {statusToast && (

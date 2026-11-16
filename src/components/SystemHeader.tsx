@@ -26,6 +26,7 @@ import {
   Zap,
   Grid,
   Monitor,
+  Compass,
 } from 'lucide-react';
 import { ScreenId, useProjectionStore } from '../store/useProjectionStore';
 import { ProjectorOutputView } from './ProjectorOutputView';
@@ -75,6 +76,13 @@ const SCREEN_SUBTITLES: Record<ScreenId, string> = {
   17: 'INTERIOR WINDOW PORTALS, HOLLUSIONS & YARD PROP MAPPER',
   18: 'BROADCAST RDS, WEATHER SAFETY & RENDER FARM CENTER',
 };
+
+const EXPRESS_SCREEN_LABELS: { id: ScreenId; label: string }[] = [
+  { id: 3, label: '1. 📸 Pick House / Wall' },
+  { id: 2, label: '2. 📐 Outlines & Windows' },
+  { id: 4, label: '3. 🎬 Holiday Look / Video' },
+  { id: 7, label: '4. 🚀 Showtime & Play!' },
+];
 
 const SCREEN_SHORT_LABELS: { id: ScreenId; label: string }[] = [
   { id: 1, label: '1. Home' },
@@ -144,6 +152,9 @@ export const SystemHeader: React.FC = () => {
     setIsDmxWledModalOpen,
     setIsLiveAudioMidiModalOpen,
     setIsTestPatternsModalOpen,
+    setIsStarterPacksModalOpen,
+    setIsSpotlightTourActive,
+    setSpotlightTourStep,
     projectors,
     showToast,
   } = useProjectionStore();
@@ -669,6 +680,36 @@ export const SystemHeader: React.FC = () => {
               <span className="text-[11px] font-extrabold">Ctrl+K</span>
             </button>
 
+            {/* Holiday In a Box 1-Click Starter Shows */}
+            <button
+              type="button"
+              data-tour-id="tour-starter-shows"
+              onClick={() => setIsStarterPacksModalOpen(true)}
+              title="Holiday In a Box — Load complete 1-click Starter Shows (Halloween, Christmas, NYE, Indoor Party)"
+              className="h-7 px-2.5 rounded-md bg-gradient-to-r from-amber-500/25 to-emerald-500/25 hover:from-amber-500/45 hover:to-emerald-500/45 border border-amber-400/70 hover:border-amber-300 flex items-center gap-1.5 text-amber-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span className="text-[11px] font-extrabold uppercase tracking-wide">
+                Starter Shows
+              </span>
+            </button>
+
+            {/* Interactive Spotlight Guided Tour */}
+            <button
+              type="button"
+              onClick={() => {
+                setSpotlightTourStep(0);
+                setIsSpotlightTourActive(true);
+              }}
+              title="Start Interactive On-Screen 5-Step Spotlight Tour for Beginners"
+              className="h-7 px-2.5 rounded-md bg-cyan-600/25 hover:bg-cyan-600/45 border border-cyan-400/70 hover:border-cyan-300 flex items-center gap-1.5 text-cyan-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+            >
+              <Compass className="w-3.5 h-3.5 text-cyan-300" />
+              <span className="text-[11px] font-extrabold uppercase tracking-wide">
+                Guided Tour
+              </span>
+            </button>
+
             {/* Interactive Beginner Sample Show Walkthrough Button */}
             <button
               type="button"
@@ -698,14 +739,15 @@ export const SystemHeader: React.FC = () => {
           </div>
         </div>
 
-        {/* ROW 2: Dedicated Studio Tools & Wizards Bar (Wraps cleanly into 2 rows on smaller screens) */}
+        {/* ROW 2: Dedicated Studio Tools & Wizards Bar (Simplified automatically in Express Mode) */}
         <div className="min-h-[38px] w-full px-4 py-1.5 bg-[#0d131f] border-b border-[#1b2535] flex flex-wrap items-center gap-1.5">
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 bg-[#141c2c] border border-[#23314a] px-2 py-0.5 rounded mr-1 shrink-0">
-            Studio Tools:
+            {activeStudioMode === 'express' ? 'Quick Tools:' : 'Studio Tools:'}
           </span>
 
           <button
             type="button"
+            data-tour-id="tour-fit-video"
             onClick={() => setIsFitVideoModalOpen(true)}
             title="Fit Video to House — Map single video across house shapes with zero overhang (§22-A..22-E)"
             className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-sky-500/60 flex items-center gap-1.5 text-slate-200 hover:text-sky-300 transition-all cursor-pointer shadow-sm shrink-0"
@@ -714,18 +756,21 @@ export const SystemHeader: React.FC = () => {
             <span className="text-[11px] font-bold whitespace-nowrap">Fit Video</span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => setIsExportStencilModalOpen(true)}
-            title="Export House Stencil — High-res filled mask & outline for AI video generators (§22-F)"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-indigo-500/60 flex items-center gap-1.5 text-slate-200 hover:text-indigo-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Wand2 className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Stencil</span>
-          </button>
+          {activeStudioMode !== 'express' && (
+            <button
+              type="button"
+              onClick={() => setIsExportStencilModalOpen(true)}
+              title="Export House Stencil — High-res filled mask & outline for AI video generators (§22-F)"
+              className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-indigo-500/60 flex items-center gap-1.5 text-slate-200 hover:text-indigo-300 transition-all cursor-pointer shadow-sm shrink-0"
+            >
+              <Wand2 className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="text-[11px] font-bold whitespace-nowrap">Stencil</span>
+            </button>
+          )}
 
           <button
             type="button"
+            data-tour-id="tour-warp-calib"
             onClick={() => setIsMapRecalibrationModalOpen(true)}
             title="Global Map Warp (W), Two-Tier Recalibration, Holes Outliner & Geometry Classifier"
             className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
@@ -754,47 +799,51 @@ export const SystemHeader: React.FC = () => {
             <span className="text-[11px] font-bold whitespace-nowrap">Auto-Show</span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => setIsRunNightRehearsalModalOpen(true)}
-            title="Evening Rehearsal Simulator (--rehearse-evening), Pre-Show Preflight, Launch Pad & Native .mps* Bridge"
-            className="h-7 px-2.5 rounded-md bg-gradient-to-r from-amber-600/30 to-rose-600/30 hover:from-amber-600/50 hover:to-rose-600/50 border border-amber-500/60 hover:border-amber-400 flex items-center gap-1.5 text-amber-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Calendar className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[11px] font-extrabold whitespace-nowrap">Rehearsal</span>
-          </button>
+          {activeStudioMode !== 'express' && (
+            <>
+              <button
+                type="button"
+                onClick={() => setIsRunNightRehearsalModalOpen(true)}
+                title="Evening Rehearsal Simulator (--rehearse-evening), Pre-Show Preflight, Launch Pad & Native .mps* Bridge"
+                className="h-7 px-2.5 rounded-md bg-gradient-to-r from-amber-600/30 to-rose-600/30 hover:from-amber-600/50 hover:to-rose-600/50 border border-amber-500/60 hover:border-amber-400 flex items-center gap-1.5 text-amber-200 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[11px] font-extrabold whitespace-nowrap">Rehearsal</span>
+              </button>
 
-          <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
+              <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
 
-          <button
-            type="button"
-            onClick={() => setIsProjectorRigModalOpen(true)}
-            title="Multi-Projector Rig & Edge Blending Studio (.mpsrig) — Canvas arrangement, overlap curves, 3x3 warp mesh, lamp hours"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Monitor className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Rig &amp; Blend</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsProjectorRigModalOpen(true)}
+                title="Multi-Projector Rig & Edge Blending Studio (.mpsrig) — Canvas arrangement, overlap curves, 3x3 warp mesh, lamp hours"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-200 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Monitor className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Rig &amp; Blend</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsDmxWledModalOpen(true)}
-            title="DMX Art-Net & WLED Pixel Light Synchronization — Physical moving heads, RGB floods, WLED strips & 512-ch heat map"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">DMX / WLED</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsDmxWledModalOpen(true)}
+                title="DMX Art-Net & WLED Pixel Light Synchronization — Physical moving heads, RGB floods, WLED strips & 512-ch heat map"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-200 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">DMX / WLED</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsLiveAudioMidiModalOpen(true)}
-            title="Live Audio-Reactive Spectrum Analyzer & Web MIDI Studio — 2048-pt FFT 5-band analysis & USB launchpad mapping"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-rose-500/60 flex items-center gap-1.5 text-slate-200 hover:text-rose-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Radio className="w-3.5 h-3.5 text-rose-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Live Audio &amp; MIDI</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsLiveAudioMidiModalOpen(true)}
+                title="Live Audio-Reactive Spectrum Analyzer & Web MIDI Studio — 2048-pt FFT 5-band analysis & USB launchpad mapping"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-rose-500/60 flex items-center gap-1.5 text-slate-200 hover:text-rose-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Radio className="w-3.5 h-3.5 text-rose-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Live Audio &amp; MIDI</span>
+              </button>
+            </>
+          )}
 
           <button
             type="button"
@@ -806,74 +855,90 @@ export const SystemHeader: React.FC = () => {
             <span className="text-[11px] font-bold whitespace-nowrap">Test Patterns</span>
           </button>
 
-          <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
+          {activeStudioMode !== 'express' && (
+            <>
+              <div className="h-4 w-[1px] bg-[#263246] mx-0.5 shrink-0 hidden sm:block" />
 
-          <button
-            type="button"
-            onClick={() => setIsOpticsCalculatorOpen(true)}
-            title="Projector Throw & Lens Optics Calculator"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Calculator className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Optics Calc</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsOpticsCalculatorOpen(true)}
+                title="Projector Throw & Lens Optics Calculator"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Calculator className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Optics Calc</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsStemSplitterOpen(true)}
-            title="AI 4-Stem Audio Separator & EQ Mixer"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-300 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Sliders className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Stems</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsStemSplitterOpen(true)}
+                title="AI 4-Stem Audio Separator & EQ Mixer"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-cyan-500/60 flex items-center gap-1.5 text-slate-300 hover:text-cyan-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Stems</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsBatchRenderModalOpen(true)}
-            title="Overnight Batch AI Video Render Queue"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-300 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-fuchsia-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Batch Queue</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsBatchRenderModalOpen(true)}
+                title="Overnight Batch AI Video Render Queue"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-fuchsia-500/60 flex items-center gap-1.5 text-slate-300 hover:text-fuchsia-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-fuchsia-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Batch Queue</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsMidiControllerModalOpen(true)}
-            title="MIDI & Hardware Controller Mapper"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-300 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Sliders className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">MIDI Map</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsMidiControllerModalOpen(true)}
+                title="MIDI & Hardware Controller Mapper"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-emerald-500/60 flex items-center gap-1.5 text-slate-300 hover:text-emerald-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Sliders className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">MIDI Map</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsHolidayAssetModalOpen(true)}
-            title="Architectural Decal & Holiday Stencil Library"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <Image className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">Assets</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsHolidayAssetModalOpen(true)}
+                title="Architectural Decal & Holiday Stencil Library"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-amber-500/60 flex items-center gap-1.5 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <Image className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">Assets</span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setIsProjectTimeMachineModalOpen(true)}
-            title="Project Time Machine & Snapshot History"
-            className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-blue-500/60 flex items-center gap-1.5 text-slate-300 hover:text-blue-300 transition-all cursor-pointer shadow-sm shrink-0"
-          >
-            <History className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-[11px] font-bold whitespace-nowrap">History</span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setIsProjectTimeMachineModalOpen(true)}
+                title="Project Time Machine & Snapshot History"
+                className="h-7 px-2.5 rounded-md bg-[#141b28] hover:bg-[#1d2638] border border-[#263246] hover:border-blue-500/60 flex items-center gap-1.5 text-slate-300 hover:text-blue-300 transition-all cursor-pointer shadow-sm shrink-0"
+              >
+                <History className="w-3.5 h-3.5 text-blue-400" />
+                <span className="text-[11px] font-bold whitespace-nowrap">History</span>
+              </button>
+            </>
+          )}
         </div>
 
         {/* ROW 3: Dedicated Studio Workflow Screen Navigation Bar (Wraps cleanly without horizontal scrollbars) */}
         <div className="min-h-[42px] w-full px-4 py-1.5 bg-[#0a0f17] flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-          {/* Studio Mode Selector (Core 1-10 vs Pro 11-18) + Screen Tabs */}
+          {/* Studio Mode Selector (Express vs Core 1-10 vs Pro 11-18) + Screen Tabs */}
           <div className="flex flex-wrap items-center gap-1.5">
             <div className="flex items-center bg-[#101725] p-0.5 rounded-md border border-[#212c3e] shrink-0 mr-1">
+              <button
+                type="button"
+                onClick={() => setActiveStudioMode('express')}
+                title="Beginner-friendly 4-Step Express Studio Mode"
+                className={`px-2.5 py-1 rounded text-[10px] font-bold tracking-wide uppercase transition-all cursor-pointer ${
+                  activeStudioMode === 'express'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Express
+              </button>
               <button
                 type="button"
                 onClick={() => setActiveStudioMode('core')}
@@ -898,26 +963,37 @@ export const SystemHeader: React.FC = () => {
               </button>
             </div>
 
-            {/* Screen Navigation Buttons (Core or Pro) */}
+            {/* Screen Navigation Buttons (Express, Core, or Pro) */}
             <nav
               aria-label="Studio Workflow Navigation"
               className="flex flex-wrap items-center gap-1.5"
             >
-              {(activeStudioMode === 'core'
-                ? SCREEN_SHORT_LABELS
-                : PRO_SCREEN_LABELS
+              {(activeStudioMode === 'express'
+                ? EXPRESS_SCREEN_LABELS
+                : activeStudioMode === 'core'
+                  ? SCREEN_SHORT_LABELS
+                  : PRO_SCREEN_LABELS
               ).map((item) => {
                 const isActive = activeScreen === item.id;
+                const tourAttr =
+                  item.id === 2
+                    ? 'tour-screen-map'
+                    : item.id === 7
+                      ? 'tour-showtime'
+                      : undefined;
                 return (
                   <button
                     key={item.id}
                     type="button"
+                    data-tour-id={tourAttr}
                     onClick={() => setActiveScreen(item.id)}
                     className={`px-3 py-1 rounded text-[11px] font-bold tracking-wide uppercase transition-all whitespace-nowrap shrink-0 flex items-center gap-1 cursor-pointer ${
                       isActive
                         ? activeStudioMode === 'pro'
                           ? 'bg-fuchsia-600 text-white shadow-[0_0_10px_rgba(217,70,239,0.6)] border border-fuchsia-400'
-                          : 'bg-blue-600 text-white shadow-[0_0_10px_rgba(37,99,235,0.6)] border border-blue-400'
+                          : activeStudioMode === 'express'
+                            ? 'bg-emerald-600 text-white shadow-[0_0_10px_rgba(16,185,129,0.6)] border border-emerald-400'
+                            : 'bg-blue-600 text-white shadow-[0_0_10px_rgba(37,99,235,0.6)] border border-blue-400'
                         : 'bg-[#121824] text-slate-300 hover:text-white hover:bg-[#1a2334] border border-[#212c3e] hover:border-slate-500'
                     }`}
                   >

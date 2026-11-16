@@ -938,9 +938,9 @@ export interface ProjectionStudioState {
     modifier: Partial<LayerColorModifier>
   ) => void;
 
-  // Pro Studio Expansion State (Screens 11-18)
-  activeStudioMode: 'core' | 'pro';
-  setActiveStudioMode: (mode: 'core' | 'pro') => void;
+  // Pro Studio Expansion State (Express / Core 1-10 / Pro 11-18)
+  activeStudioMode: 'express' | 'core' | 'pro';
+  setActiveStudioMode: (mode: 'express' | 'core' | 'pro') => void;
 
   // Screen 11: Timeline NLE
   timelineTracks: TimelineTrack[];
@@ -1085,6 +1085,9 @@ export interface ProjectionStudioState {
   isDmxWledModalOpen: boolean;
   isLiveAudioMidiModalOpen: boolean;
   isTestPatternsModalOpen: boolean;
+  isStarterPacksModalOpen: boolean;
+  isSpotlightTourActive: boolean;
+  spotlightTourStep: number;
 
   setIsFitVideoModalOpen: (open: boolean) => void;
   setIsExportStencilModalOpen: (open: boolean) => void;
@@ -1098,6 +1101,9 @@ export interface ProjectionStudioState {
   setIsDmxWledModalOpen: (open: boolean) => void;
   setIsLiveAudioMidiModalOpen: (open: boolean) => void;
   setIsTestPatternsModalOpen: (open: boolean) => void;
+  setIsStarterPacksModalOpen: (open: boolean) => void;
+  setIsSpotlightTourActive: (active: boolean) => void;
+  setSpotlightTourStep: (step: number) => void;
 
   setLayers: (layers: VectorLayer[]) => void;
   setBeatFlags: (flags: BeatFlag[]) => void;
@@ -2462,6 +2468,9 @@ export const useProjectionStore = create<ProjectionStudioState>()(
       isDmxWledModalOpen: false,
       isLiveAudioMidiModalOpen: false,
       isTestPatternsModalOpen: false,
+      isStarterPacksModalOpen: false,
+      isSpotlightTourActive: false,
+      spotlightTourStep: 0,
 
       setActiveScreen: (screen) =>
         set((state) => {
@@ -4833,6 +4842,15 @@ export const useProjectionStore = create<ProjectionStudioState>()(
 
       setIsTestPatternsModalOpen: (open) =>
         set(() => ({ isTestPatternsModalOpen: open })),
+
+      setIsStarterPacksModalOpen: (open) =>
+        set(() => ({ isStarterPacksModalOpen: open })),
+
+      setIsSpotlightTourActive: (active) =>
+        set(() => ({ isSpotlightTourActive: active })),
+
+      setSpotlightTourStep: (step) =>
+        set(() => ({ spotlightTourStep: step })),
 
       setLayers: (layers) =>
         set(() => ({ layers, projectStateBadge: 'Unsaved' })),
